@@ -1,5 +1,6 @@
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import org.junit.Test;
 public class DiamondTest {
 
 	private static final char BACKGROUND_CHARACTER = '-';
+	private static final String LINEBREAK = "\n";
 
 	@Test
 	public void createsDiamondForOneLetter() {
@@ -23,27 +25,32 @@ public class DiamondTest {
 		assertThat(diamond("BA"), is("-B-\n" + "A-A\n" + "-B-"));
 	}
 
-	private String diamond(String alphabet) {
-		String linebreak = "\n";
-		int len = alphabet.length();
-		String mirrored = mirror(alphabet);
-
-		List<String> lines = new ArrayList<String>();
-		for (int i = 0; i < mirrored.length(); i++) {
-			lines.add(line(i % len, len, mirrored.charAt(i % len)));
-		}
-		return join(linebreak, lines);
+	@Test
+	public void createsDiamondForThreeLetters() {
+		assertEquals("--A--\n" + "-B-B-\n" + "C---C\n" + "-B-B-\n" + "--A--",
+				diamond("ABC"));
 	}
 
-	private String line(int lineIndex, int len, char ch) {
-		char[] chars = new char[len];
-		Arrays.fill(chars, BACKGROUND_CHARACTER);
-		chars[len - 1 - lineIndex] = ch;
-		return mirror(new String(chars));
+	private String diamond(String alphabet) {
+		String mirrored = mirror(alphabet);
+		int len = alphabet.length();
+		List<String> lines = new ArrayList<String>();
+		for (int i = 0; i < mirrored.length(); i++) {
+			lines.add(line(i, len, mirrored.charAt(i)));
+		}
+		return join(LINEBREAK, lines);
+	}
+
+	private String line(int lineIndex, int alphabetSize, char ch) {
+		char[] leftHalf = new char[alphabetSize];
+		Arrays.fill(leftHalf, BACKGROUND_CHARACTER);
+		leftHalf[Math.abs(alphabetSize - 1 - lineIndex)] = ch;
+		return mirror(new String(leftHalf));
 	}
 
 	private String mirror(String in) {
-		return in + in.substring(0, in.length() - 1);
+		return in
+				+ new StringBuilder(in.substring(0, in.length() - 1)).reverse();
 	}
 
 	private String join(String linebreak, List<String> lines) {
