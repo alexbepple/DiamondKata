@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -35,10 +36,19 @@ public class DiamondTest {
 		String mirrored = mirror(alphabet);
 		int len = alphabet.length();
 		List<String> lines = new ArrayList<String>();
-		for (int i = 0; i < mirrored.length(); i++) {
+		for (int i = 0; i < alphabet.length(); i++) {
 			lines.add(line(i, len, mirrored.charAt(i)));
 		}
-		return join(LINEBREAK, lines);
+
+		return join(LINEBREAK, m(lines));
+	}
+
+	private List<String> m(List<String> lines) {
+		List<String> upperHalfAndCenterLine = new ArrayList<String>(lines);
+		List<String> lowerHalf = lines.subList(0, lines.size() - 1);
+		Collections.reverse(lowerHalf);
+		upperHalfAndCenterLine.addAll(lowerHalf);
+		return upperHalfAndCenterLine;
 	}
 
 	private String line(int lineIndex, int alphabetSize, char ch) {
