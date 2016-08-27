@@ -24,23 +24,30 @@ public class DiamondTest {
 
 	private String diamond(String alphabet) {
 		String linebreak = "\n";
-		if (alphabet.length() == 2) {
-			String mirrored = alphabet
-					+ alphabet.substring(0, alphabet.length() - 1);
+		int len = alphabet.length();
+		if (len == 2) {
+			String mirrored = mirror(alphabet);
 			return join(linebreak, Arrays.asList(
-					outmost(mirrored.substring(0, 1)),
-					centerline(mirrored.substring(1, 2)),
-					outmost(mirrored.substring(2, 3))));
+					line(mirrored.substring(0 % len, 1), len, 0 % len),
+					line(mirrored.substring(1 % len, 2), len, 1 % len),
+					line(mirrored.substring(2 % len, 3), len, 2 % len)));
 		}
 		return alphabet;
 	}
 
-	private String centerline(String ch) {
-		return ch + BACKGROUND_CHARACTER + ch;
+	private String line(String ch, int len, int lineIndex) {
+		char[] chars = new char[len];
+		Arrays.fill(chars, BACKGROUND_CHARACTER.charAt(0));
+		chars[len - 1 - lineIndex] = ch.charAt(0);
+		return mirror(new String(chars));
 	}
 
 	private String outmost(String ch) {
-		return BACKGROUND_CHARACTER + ch + BACKGROUND_CHARACTER;
+		return mirror(BACKGROUND_CHARACTER + ch);
+	}
+
+	private String mirror(String in) {
+		return in + in.substring(0, in.length() - 1);
 	}
 
 	private String join(String linebreak, List<String> lines) {
