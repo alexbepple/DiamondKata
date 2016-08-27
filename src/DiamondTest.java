@@ -33,22 +33,27 @@ public class DiamondTest {
 	}
 
 	private String diamond(String alphabet) {
-		String mirrored = mirror(alphabet);
-		int len = alphabet.length();
-		List<String> lines = new ArrayList<String>();
-		for (int i = 0; i < alphabet.length(); i++) {
-			lines.add(line(i, len, mirrored.charAt(i)));
-		}
-
-		return join(LINEBREAK, m(lines));
+		List<String> upperHalfAndCenterLine = createUpperHalfAndCenterLine(alphabet);
+		return join(LINEBREAK, completeFrom(upperHalfAndCenterLine));
 	}
 
-	private List<String> m(List<String> lines) {
-		List<String> upperHalfAndCenterLine = new ArrayList<String>(lines);
-		List<String> lowerHalf = lines.subList(0, lines.size() - 1);
-		Collections.reverse(lowerHalf);
-		upperHalfAndCenterLine.addAll(lowerHalf);
+	private List<String> createUpperHalfAndCenterLine(String alphabet) {
+		String mirrored = mirror(alphabet);
+		List<String> upperHalfAndCenterLine = new ArrayList<String>();
+		for (int i = 0; i < alphabet.length(); i++) {
+			upperHalfAndCenterLine.add(line(i, alphabet.length(),
+					mirrored.charAt(i)));
+		}
 		return upperHalfAndCenterLine;
+	}
+
+	private List<String> completeFrom(List<String> upperHalfAndCenterLine) {
+		List<String> result = new ArrayList<String>(upperHalfAndCenterLine);
+		List<String> lowerHalf = upperHalfAndCenterLine.subList(0,
+				upperHalfAndCenterLine.size() - 1);
+		Collections.reverse(lowerHalf);
+		result.addAll(lowerHalf);
+		return result;
 	}
 
 	private String line(int lineIndex, int alphabetSize, char ch) {
