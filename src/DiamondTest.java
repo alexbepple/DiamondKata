@@ -38,11 +38,10 @@ public class DiamondTest {
 	}
 
 	private List<String> createUpperHalfAndCenterLine(String alphabet) {
-		String mirrored = mirror(alphabet);
 		List<String> upperHalfAndCenterLine = new ArrayList<String>();
 		for (int i = 0; i < alphabet.length(); i++) {
 			upperHalfAndCenterLine.add(line(i, alphabet.length(),
-					mirrored.charAt(i)));
+					alphabet.charAt(i)));
 		}
 		return upperHalfAndCenterLine;
 	}
@@ -57,15 +56,14 @@ public class DiamondTest {
 	}
 
 	private String line(int lineIndex, int alphabetSize, char ch) {
-		char[] leftHalf = new char[alphabetSize];
-		Arrays.fill(leftHalf, BACKGROUND_CHARACTER);
-		leftHalf[Math.abs(alphabetSize - 1 - lineIndex)] = ch;
-		return mirror(new String(leftHalf));
-	}
+		char[] rightHalfAndCenter = new char[alphabetSize];
+		Arrays.fill(rightHalfAndCenter, BACKGROUND_CHARACTER);
 
-	private String mirror(String in) {
-		return in
-				+ new StringBuilder(in.substring(0, in.length() - 1)).reverse();
+		rightHalfAndCenter[lineIndex] = ch;
+
+		StringBuilder leftHalf = new StringBuilder(
+				new String(rightHalfAndCenter).substring(1)).reverse();
+		return leftHalf + new String(rightHalfAndCenter);
 	}
 
 	private String join(String linebreak, List<String> lines) {
