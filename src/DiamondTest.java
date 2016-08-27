@@ -26,16 +26,13 @@ public class DiamondTest {
 	private String diamond(String alphabet) {
 		String linebreak = "\n";
 		int len = alphabet.length();
-		if (len == 2) {
-			String mirrored = mirror(alphabet);
+		String mirrored = mirror(alphabet);
 
-			List<String> lines = new ArrayList<String>();
-			for (int i = 0; i < mirrored.length(); i++) {
-				lines.add(line(i % len, len, mirrored.charAt(i % len)));
-			}
-			return join(linebreak, lines);
+		List<String> lines = new ArrayList<String>();
+		for (int i = 0; i < mirrored.length(); i++) {
+			lines.add(line(i % len, len, mirrored.charAt(i % len)));
 		}
-		return alphabet;
+		return join(linebreak, lines);
 	}
 
 	private String line(int lineIndex, int len, char ch) {
