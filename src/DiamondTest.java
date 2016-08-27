@@ -33,9 +33,12 @@ public class DiamondTest {
 	}
 
 	private String diamond(String alphabet) {
+		List<String> result = new ArrayList<String>();
 		List<String> upperPartAndCenterLine = createUpperPartAndCenterLine(alphabet);
-		List<String> allLines = completeFrom(upperPartAndCenterLine);
-		return join(LINEBREAK, allLines);
+		
+		result.addAll(upperPartAndCenterLine);
+		result.addAll(createLowerPartFrom(upperPartAndCenterLine));
+		return join(LINEBREAK, result);
 	}
 
 	private List<String> createUpperPartAndCenterLine(String alphabet) {
@@ -67,13 +70,6 @@ public class DiamondTest {
 
 	private String join(String linebreak, List<String> lines) {
 		return lines.stream().collect(joining(linebreak));
-	}
-
-	private List<String> completeFrom(List<String> upperPartAndCenterLine) {
-		List<String> result = new ArrayList<String>(upperPartAndCenterLine);
-		List<String> lowerPart = createLowerPartFrom(upperPartAndCenterLine);
-		result.addAll(lowerPart);
-		return result;
 	}
 
 	private List<String> createLowerPartFrom(List<String> upperPartAndCenterLine) {
