@@ -2,6 +2,7 @@ import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,14 +28,12 @@ public class DiamondTest {
 		int len = alphabet.length();
 		if (len == 2) {
 			String mirrored = mirror(alphabet);
-			return join(linebreak,
-					Arrays.asList(
-							line(mirrored.substring(0 % len, 0 % len + 1), len,
-									0 % len),
-							line(mirrored.substring(1 % len, 1 % len + 1), len,
-									1 % len),
-							line(mirrored.substring(2 % len, 2 % len + 1), len,
-									2 % len)));
+			List<String> lines = new ArrayList<String>();
+			for (int i = 0; i < mirrored.length(); i++) {
+				lines.add(line(mirrored.substring(i % len, i % len + 1), len, i
+						% len));
+			}
+			return join(linebreak, lines);
 		}
 		return alphabet;
 	}
