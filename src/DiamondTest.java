@@ -22,16 +22,17 @@ public class DiamondTest {
 		assertThat(diamond("BA"), is("-B-\n" + "A-A\n" + outmost("B")));
 	}
 
-	private String diamond(String string) {
+	private String diamond(String alphabet) {
 		String linebreak = "\n";
-		if (string.length() == 2) {
+		if (alphabet.length() == 2) {
+			String mirrored = alphabet
+					+ alphabet.substring(0, alphabet.length() - 1);
 			return join(linebreak, Arrays.asList(
-					outmost(string.substring(0, 1)),
-					centerline(string.substring(1, 2)),
-					outmost(string.substring(0, 1))));
+					outmost(mirrored.substring(0, 1)),
+					centerline(mirrored.substring(1, 2)),
+					outmost(mirrored.substring(2, 3))));
 		}
-
-		return string;
+		return alphabet;
 	}
 
 	private String centerline(String ch) {
