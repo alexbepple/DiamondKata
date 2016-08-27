@@ -55,15 +55,22 @@ public class DiamondTest {
 		return result;
 	}
 
-	private String line(int lineIndex, int alphabetSize, char ch) {
-		char[] rightHalfAndCenter = new char[alphabetSize];
-		Arrays.fill(rightHalfAndCenter, BACKGROUND_CHARACTER);
+	private String line(int pos, int alphabetSize, char ch) {
+		char[] centerAndRightHalf = createLineOfLength(alphabetSize);
+		centerAndRightHalf[pos] = ch;
+		return completeFrom(new String(centerAndRightHalf));
+	}
 
-		rightHalfAndCenter[lineIndex] = ch;
+	private char[] createLineOfLength(int alphabetSize) {
+		char[] centerAndRightHalf = new char[alphabetSize];
+		Arrays.fill(centerAndRightHalf, BACKGROUND_CHARACTER);
+		return centerAndRightHalf;
+	}
 
+	private String completeFrom(String centerAndRightHalf) {
 		StringBuilder leftHalf = new StringBuilder(
-				new String(rightHalfAndCenter).substring(1)).reverse();
-		return leftHalf + new String(rightHalfAndCenter);
+				centerAndRightHalf.substring(1)).reverse();
+		return leftHalf + centerAndRightHalf;
 	}
 
 	private String join(String linebreak, List<String> lines) {
