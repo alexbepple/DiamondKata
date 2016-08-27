@@ -19,7 +19,7 @@ public class DiamondTest {
 	@Test
 	public void createsDiamondForTwoLetters() {
 		assertThat(diamond("AB"), is("-A-\n" + "B-B\n" + "-A-"));
-		assertThat(diamond("BA"), is("-B-\n" + "A-A\n" + outmost("B")));
+		assertThat(diamond("BA"), is("-B-\n" + "A-A\n" + "-B-"));
 	}
 
 	private String diamond(String alphabet) {
@@ -27,10 +27,14 @@ public class DiamondTest {
 		int len = alphabet.length();
 		if (len == 2) {
 			String mirrored = mirror(alphabet);
-			return join(linebreak, Arrays.asList(
-					line(mirrored.substring(0 % len, 1), len, 0 % len),
-					line(mirrored.substring(1 % len, 2), len, 1 % len),
-					line(mirrored.substring(2 % len, 3), len, 2 % len)));
+			return join(linebreak,
+					Arrays.asList(
+							line(mirrored.substring(0 % len, 0 % len + 1), len,
+									0 % len),
+							line(mirrored.substring(1 % len, 1 % len + 1), len,
+									1 % len),
+							line(mirrored.substring(2 % len, 2 % len + 1), len,
+									2 % len)));
 		}
 		return alphabet;
 	}
@@ -40,10 +44,6 @@ public class DiamondTest {
 		Arrays.fill(chars, BACKGROUND_CHARACTER.charAt(0));
 		chars[len - 1 - lineIndex] = ch.charAt(0);
 		return mirror(new String(chars));
-	}
-
-	private String outmost(String ch) {
-		return mirror(BACKGROUND_CHARACTER + ch);
 	}
 
 	private String mirror(String in) {
