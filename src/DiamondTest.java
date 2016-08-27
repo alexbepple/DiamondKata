@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class DiamondTest {
 
-	private static final String BACKGROUND_CHARACTER = "-";
+	private static final char BACKGROUND_CHARACTER = '-';
 
 	@Test
 	public void createsDiamondForOneLetter() {
@@ -28,20 +28,20 @@ public class DiamondTest {
 		int len = alphabet.length();
 		if (len == 2) {
 			String mirrored = mirror(alphabet);
+
 			List<String> lines = new ArrayList<String>();
 			for (int i = 0; i < mirrored.length(); i++) {
-				lines.add(line(mirrored.substring(i % len, i % len + 1), len, i
-						% len));
+				lines.add(line(i % len, len, mirrored.charAt(i % len)));
 			}
 			return join(linebreak, lines);
 		}
 		return alphabet;
 	}
 
-	private String line(String ch, int len, int lineIndex) {
+	private String line(int lineIndex, int len, char ch) {
 		char[] chars = new char[len];
-		Arrays.fill(chars, BACKGROUND_CHARACTER.charAt(0));
-		chars[len - 1 - lineIndex] = ch.charAt(0);
+		Arrays.fill(chars, BACKGROUND_CHARACTER);
+		chars[len - 1 - lineIndex] = ch;
 		return mirror(new String(chars));
 	}
 
