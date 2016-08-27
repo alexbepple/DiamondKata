@@ -33,12 +33,18 @@ public class DiamondTest {
 	}
 
 	private String diamond(String alphabet) {
-		List<String> result = new ArrayList<String>();
 		List<String> upperPartAndCenterLine = createUpperPartAndCenterLine(alphabet);
+		List<String> lowerPart = createLowerPartFrom(upperPartAndCenterLine);
 		
+		return join(LINEBREAK, concat(upperPartAndCenterLine, lowerPart));
+	}
+
+	private List<String> concat(List<String> upperPartAndCenterLine,
+			List<String> lowerPart) {
+		List<String> result = new ArrayList<String>();
 		result.addAll(upperPartAndCenterLine);
-		result.addAll(createLowerPartFrom(upperPartAndCenterLine));
-		return join(LINEBREAK, result);
+		result.addAll(lowerPart);
+		return result;
 	}
 
 	private List<String> createUpperPartAndCenterLine(String alphabet) {
@@ -75,7 +81,7 @@ public class DiamondTest {
 	private List<String> createLowerPartFrom(List<String> upperPartAndCenterLine) {
 		List<String> upperPart = upperPartAndCenterLine.subList(0,
 				upperPartAndCenterLine.size() - 1);
-		return reverse(upperPart);
+		return reverse(new ArrayList<>(upperPart));
 	}
 
 	private List<String> reverse(List<String> lowerPart) {
