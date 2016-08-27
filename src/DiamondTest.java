@@ -46,19 +46,10 @@ public class DiamondTest {
 		return upperHalfAndCenterLine;
 	}
 
-	private List<String> completeFrom(List<String> upperHalfAndCenterLine) {
-		List<String> result = new ArrayList<String>(upperHalfAndCenterLine);
-		List<String> lowerHalf = upperHalfAndCenterLine.subList(0,
-				upperHalfAndCenterLine.size() - 1);
-		Collections.reverse(lowerHalf);
-		result.addAll(lowerHalf);
-		return result;
-	}
-
 	private String line(int pos, int alphabetSize, char ch) {
 		char[] centerAndRightHalf = createLineOfLength(alphabetSize);
 		centerAndRightHalf[pos] = ch;
-		return completeFrom(new String(centerAndRightHalf));
+		return completeLineFrom(new String(centerAndRightHalf));
 	}
 
 	private char[] createLineOfLength(int alphabetSize) {
@@ -67,7 +58,7 @@ public class DiamondTest {
 		return centerAndRightHalf;
 	}
 
-	private String completeFrom(String centerAndRightHalf) {
+	private String completeLineFrom(String centerAndRightHalf) {
 		StringBuilder leftHalf = new StringBuilder(
 				centerAndRightHalf.substring(1)).reverse();
 		return leftHalf + centerAndRightHalf;
@@ -77,4 +68,12 @@ public class DiamondTest {
 		return lines.stream().collect(joining(linebreak));
 	}
 
+	private List<String> completeFrom(List<String> upperHalfAndCenterLine) {
+		List<String> result = new ArrayList<String>(upperHalfAndCenterLine);
+		List<String> lowerHalf = upperHalfAndCenterLine.subList(0,
+				upperHalfAndCenterLine.size() - 1);
+		Collections.reverse(lowerHalf);
+		result.addAll(lowerHalf);
+		return result;
+	}
 }
