@@ -33,47 +33,57 @@ public class DiamondTest {
 	}
 
 	private String diamond(String alphabet) {
-		List<String> upperHalfAndCenterLine = createUpperHalfAndCenterLine(alphabet);
-		return join(LINEBREAK, completeFrom(upperHalfAndCenterLine));
+		List<String> upperPartAndCenterLine = createUpperPartAndCenterLine(alphabet);
+		List<String> allLines = completeFrom(upperPartAndCenterLine);
+		return join(LINEBREAK, allLines);
 	}
 
-	private List<String> createUpperHalfAndCenterLine(String alphabet) {
-		List<String> upperHalfAndCenterLine = new ArrayList<String>();
+	private List<String> createUpperPartAndCenterLine(String alphabet) {
+		List<String> upperPartAndCenterLine = new ArrayList<String>();
 		for (int i = 0; i < alphabet.length(); i++) {
-			upperHalfAndCenterLine.add(line(i, alphabet.length(),
+			upperPartAndCenterLine.add(line(i, alphabet.length(),
 					alphabet.charAt(i)));
 		}
-		return upperHalfAndCenterLine;
+		return upperPartAndCenterLine;
 	}
 
 	private String line(int pos, int alphabetSize, char ch) {
-		char[] centerAndRightHalf = createLineOfLength(alphabetSize);
-		centerAndRightHalf[pos] = ch;
-		return completeLineFrom(new String(centerAndRightHalf));
+		char[] centerAndRightPart = createLineOfLength(alphabetSize);
+		centerAndRightPart[pos] = ch;
+		return completeLineFrom(new String(centerAndRightPart));
 	}
 
 	private char[] createLineOfLength(int alphabetSize) {
-		char[] centerAndRightHalf = new char[alphabetSize];
-		Arrays.fill(centerAndRightHalf, BACKGROUND_CHARACTER);
-		return centerAndRightHalf;
+		char[] centerAndRightPart = new char[alphabetSize];
+		Arrays.fill(centerAndRightPart, BACKGROUND_CHARACTER);
+		return centerAndRightPart;
 	}
 
-	private String completeLineFrom(String centerAndRightHalf) {
-		StringBuilder leftHalf = new StringBuilder(
-				centerAndRightHalf.substring(1)).reverse();
-		return leftHalf + centerAndRightHalf;
+	private String completeLineFrom(String centerAndRightPart) {
+		StringBuilder leftPart = new StringBuilder(
+				centerAndRightPart.substring(1)).reverse();
+		return leftPart + centerAndRightPart;
 	}
 
 	private String join(String linebreak, List<String> lines) {
 		return lines.stream().collect(joining(linebreak));
 	}
 
-	private List<String> completeFrom(List<String> upperHalfAndCenterLine) {
-		List<String> result = new ArrayList<String>(upperHalfAndCenterLine);
-		List<String> lowerHalf = upperHalfAndCenterLine.subList(0,
-				upperHalfAndCenterLine.size() - 1);
-		Collections.reverse(lowerHalf);
-		result.addAll(lowerHalf);
+	private List<String> completeFrom(List<String> upperPartAndCenterLine) {
+		List<String> result = new ArrayList<String>(upperPartAndCenterLine);
+		List<String> lowerPart = createLowerPartFrom(upperPartAndCenterLine);
+		result.addAll(lowerPart);
 		return result;
+	}
+
+	private List<String> createLowerPartFrom(List<String> upperPartAndCenterLine) {
+		List<String> upperPart = upperPartAndCenterLine.subList(0,
+				upperPartAndCenterLine.size() - 1);
+		return reverse(upperPart);
+	}
+
+	private List<String> reverse(List<String> lowerPart) {
+		Collections.reverse(lowerPart);
+		return lowerPart;
 	}
 }
