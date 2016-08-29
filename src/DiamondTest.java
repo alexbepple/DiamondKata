@@ -1,6 +1,5 @@
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -28,14 +27,14 @@ public class DiamondTest {
 
 	@Test
 	public void createsDiamondForThreeLetters() {
-		assertEquals("--A--\n" + "-B-B-\n" + "C---C\n" + "-B-B-\n" + "--A--",
-				diamond("ABC"));
+		assertThat(diamond("ABC"), is("--A--\n" + "-B-B-\n" + "C---C\n"
+				+ "-B-B-\n" + "--A--"));
 	}
 
 	private String diamond(String alphabet) {
 		List<String> upperPartAndCenterLine = createUpperPartAndCenterLine(alphabet);
 		List<String> lowerPart = createLowerPartFrom(upperPartAndCenterLine);
-		
+
 		return join(LINEBREAK, concat(upperPartAndCenterLine, lowerPart));
 	}
 
